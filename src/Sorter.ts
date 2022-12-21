@@ -1,17 +1,23 @@
-import { NumbersCollection } from './NumbersCollection';
+interface Sortable {
+  length: number;
+  compare(leftIndex: number, rightIndex: number): boolean;
+  swap(leftIndex: number, rightIndex: number): void;
+}
 
-export class Sorter {
-  constructor(public collection: NumbersCollection) {}
+export abstract class Sorter {
+  abstract compare(leftIndex: number, rightIndex: number): boolean;
+  abstract swap(leftIndex: number, rightIndex: number): void;
+  abstract length: number;
 
   sort(): void {
-    const { length } = this.collection;
-    // only works if collection is array of numbers
+    const { length } = this;
+
     // bubble sort
     for (let i = 0; i < length; i++) {
       for (let j = 0; j < length - i - 1; j++) {
         const next = j + 1;
-        if (this.collection.compare(j, next)) {
-          this.collection.swap(j, next);
+        if (this.compare(j, next)) {
+          this.swap(j, next);
         }
       }
     }
